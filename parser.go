@@ -171,7 +171,7 @@ func (o *OptionContract) ParseDAS(dasString string) bool {
 	contract := OptionContract{}
 	var err error
 
-	re := `\+([A-Z]+)(\^|\*)(\d{3})([0-9.]+)`
+	re := `\+([A-Z]+)([\^*])([A-Z0-9]{3})([0-9.]+)`
 
 	matches := regexp.MustCompile(re).FindStringSubmatch(dasString)
 	if len(matches) != 5 {
@@ -192,9 +192,9 @@ func (o *OptionContract) ParseDAS(dasString string) bool {
 	}
 
 	expirationStr := matches[3]
-	contract.expiration.Year = dasYearMap[expirationStr[2]]
-	contract.expiration.Month = dasMonthMap[expirationStr[0]]
-	contract.expiration.Day = dasDayMap[expirationStr[1]]
+	contract.expiration.Year = dasYearMap[expirationStr[0]]
+	contract.expiration.Month = dasMonthMap[expirationStr[1]]
+	contract.expiration.Day = dasDayMap[expirationStr[2]]
 
 	strikePriceStr := matches[4]
 	strikeNumber, err := strconv.ParseFloat(strikePriceStr, 64)

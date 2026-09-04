@@ -48,6 +48,16 @@ func main() {
 }
 ```
 
+### DAS Format
+```go
+var contract optionfmt.OptionContract
+contract.ParseDAS("+MSFT^G7D300")
+
+fmt.Println("Symbol:", contract.Symbol())           // Output: MSFT
+fmt.Println("Strike:", contract.StrikePrice())      // Output: 300.0
+fmt.Println("Expiration:", contract.Expiration())   // Output: 2026-07-13
+```
+
 ### EUREX Infront Format
 ```go
 var contract optionfmt.OptionContract

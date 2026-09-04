@@ -33,6 +33,32 @@ func TestOSIParser(t *testing.T) {
 	}
 }
 
+func TestDASParser(t *testing.T) {
+	dasString := "+MSFT^G7D300"
+	var contract OptionContract
+	ok := contract.ParseDAS(dasString)
+	if !ok {
+		t.Errorf("Failed to parse DAS string: %s", dasString)
+	}
+
+	if contract.Symbol() != "MSFT" {
+		t.Errorf("Expected symbol 'MSFT', got '%s'", contract.Symbol())
+	}
+
+	if contract.Type() != Call {
+		t.Errorf("Expected option type 'C', got '%s'", contract.Type())
+	}
+
+	if contract.StrikePrice() != 300.0 {
+		t.Errorf("Expected strike price 300.0, got %f", contract.StrikePrice())
+	}
+
+	if contract.Expiration().Year() != 2026 || contract.Expiration().Month() != 7 || contract.Expiration().Day() != 13 {
+		t.Errorf("Expected expiration date 2026-07-13, got %s", contract.Expiration().Format("2006-01-02"))
+	}
+
+}
+
 func TestEUREXInfrontParser(t *testing.T) {
 	eurexString := "DBK XEUR C 28 12/21 2"
 	var contract OptionContract
